@@ -2,18 +2,67 @@
   "name": "goldstein-client-dashboard",
   "version": "1.0.0",
   "description": "This package provides a dashboard for interacting with the Goldstein functionalities.",
-  "main": "index.js",
+  "author": "pedrofmu",
+  "license": "MIT",
+  "repository": "pedrofmu/goldstein-client-dashboard",
+  "main": "dist/index.js",
+  "module": "dist/index.modern.js",
+  "source": "src/index.tsx",
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "microbundle-crl --no-compress --format modern,cjs",
+    "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "prepare": "run-s build",
+    "test": "run-s test:unit test:lint test:build",
+    "test:build": "run-s build",
+    "test:lint": "eslint .",
+    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
+    "test:watch": "react-scripts test --env=jsdom",
+    "predeploy": "cd example && yarn install && yarn run build",
+    "deploy": "gh-pages -d example/build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jield-webdev/goldstein-client-dashboard.git"
+  "peerDependencies": {
+    "react": "^18.0.0"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jield-webdev/goldstein-client-dashboard/issues"
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.4",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@typescript-eslint/eslint-plugin": "^8.35.0",
+    "@typescript-eslint/parser": "^8.35.0",
+    "babel-eslint": "^10.0.3",
+    "cross-env": "^7.0.2",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-config-react-app": "7.0.1",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-config-standard-react": "^13.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^5.5.0",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-standard": "^5.0.0",
+    "gh-pages": "^6.3.0",
+    "microbundle-crl": "^0.13.10",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.6.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-scripts": "^5.0.1",
+    "typescript": "^5.8.3"
   },
-  "homepage": "https://github.com/jield-webdev/goldstein-client-dashboard#readme"
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@babel/plugin-proposal-unicode-property-regex": "^7.18.6",
+    "levenary": "^1.1.1"
+  }
 }
