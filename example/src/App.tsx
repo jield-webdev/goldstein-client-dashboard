@@ -1,8 +1,22 @@
-import { ExampleComponent } from 'goldstein-client-dashboard'
-import 'goldstein-client-dashboard/dist/index.css'
+import 'goldstein-client-dashboard/dist/index.css';
+import {
+  GoldsteinClientDashboard,
+  GoldsteinDataProvider,
+} from 'goldstein-client-dashboard';
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
-}
+  return (
+    <GoldsteinDataProvider
+      defaultData={{
+        goldsteinFQDN: 'go-server.lan:50433',
+        associationType: 'equipment',
+        associationID: 1,
+      }}
+    >
+      <GoldsteinClientDashboard />
+    </GoldsteinDataProvider>
+  );
+};
 
-export default App
+export default App;
+
