@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+$bondi-blue: #3F98BD;
+$midnight-blue: #36337D;
+$mint: #52BDC2;
+
+$blue: $bondi-blue;
+$gray: #929497;
+$dark: #3C3C3B;
+$purple: #90298D;
+$lightblue: #1582BE;
+$darkblue: $midnight-blue;
+$verylightblue: #99BDE4;
+$pink: #C778AD;
+$teal: $mint;
+$white: #FFFFFF;
+
+
+$primary: $blue !default;
+$headings-color: $blue !default;
+
+h2 {
+  color: $darkblue !important;
+}
+
+h3 {
+  color: $mint !important;
+}
+
+$btn-color: $white;
+$link-decoration: none;
+
+//#$font-size-base: 0.95rem !default;
+//$font-family-sans-serif: "Raleway", "Helvetica Neue", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default; //xenics
+
+$table-group-separator-color: #b5c0c7;
