@@ -13,15 +13,29 @@ npm install --save goldstein-client-dashboard
 ## Usage
 
 ```tsx
-import React, { Component } from 'react'
+import "goldstein-client-dashboard/dist/index.css";
+import {
+  GoldsteinClientDashboard,
+  GoldsteinDataProvider,
+} from "goldstein-client-dashboard";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import MyComponent from 'goldstein-client-dashboard'
-import 'goldstein-client-dashboard/dist/index.css'
+const queryClient = new QueryClient();
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <GoldsteinDataProvider
+        defaultData={{
+          goldsteinFQDN: "go-server.lan:50443",
+          associationType: "equipment",
+          associationID: 12,
+        }}
+      >
+        <GoldsteinClientDashboard />
+      </GoldsteinDataProvider>
+    </QueryClientProvider>
+  );
 }
 ```
 
