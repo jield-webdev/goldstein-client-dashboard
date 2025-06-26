@@ -1,6 +1,31 @@
 import { AssociationEnum, getClientsStatus, NotificationEntry, Status } from "../src/core/notifications";
 
 describe('getClientsStatus', () => {
+    it('only connected equipment', () => {
+        const notifications: NotificationEntry[] = [
+            {
+                id: 1,
+                association_item: AssociationEnum.EQUIPMENT,
+                association_id: 1,
+                timestamp: "2025-05-22T13:04:32Z",
+                message_type: Status.CLIENT_CONNECTED,
+                message: ""
+            }
+        ];
+
+        const result = getClientsStatus(notifications, new Date("2025-05-22T13:05:35Z"), 1, 100);
+        expect(result.size).toBe(1);
+        expect(result.get("equipment:1")).toEqual({
+            status: Status.CLIENT_CONNECTED,
+            timestamp: new Date("2025-05-22T13:04:32Z"),
+            message: {
+                badgeUUID: '',
+                userID: 0,
+                usable: false,
+            },
+        });
+    });
+
     it('expired notification ttl but not login ttl', () => {
         const notifications: NotificationEntry[] = [
             {

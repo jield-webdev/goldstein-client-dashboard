@@ -1,6 +1,14 @@
 import * as React from "react";
 import { useGoldsteinClientDataContext } from "../context/DataContext";
-import { ClientToServerMessage, dataListener, getWebSocket, ReadedData, sendWsMessage, WSPackage } from "../core/wsHelper";
+import {
+  ClientToServerMessage,
+  dataListener,
+  getWebSocket,
+  ReadedData,
+  sendWsMessage,
+  UpdateListeningData,
+  WSPackage,
+} from "../core/wsHelper";
 import { getClientsStatus, Status } from "../core/notifications";
 import ServerError from "./states/serverError";
 import WaitingCardDetection from "./states/waitingCardDetection";
@@ -92,7 +100,10 @@ export function GoldsteinClientDashboard() {
     }
 
     if (clientStatus.status === Status.USER_AUTHENTICATED) {
-      const userName = await getUsername(clientStatus.message.userID, goldsteinData.goldsteinFQDN);
+      const userName = await getUsername(
+        clientStatus.message.userID,
+        goldsteinData.goldsteinFQDN,
+      );
       baseStatus.userName = userName;
       if (clientStatus.message.usable) {
         baseStatus.status = RenderingEnum.EQUIPMENT_USABLE;
@@ -146,6 +157,8 @@ export function GoldsteinClientDashboard() {
 
         wsRef.current = ws;
         console.log("WebSocket connected");
+
+        setAssociationLisening();
       })
       .catch((error) => {
         setServerError();
@@ -210,6 +223,30 @@ export function GoldsteinClientDashboard() {
     if (timeoutRef.current) {
       clearInterval(timeoutRef.current);
     }
+  }
+
+  async function setAssociationLisening() {
+    const sqlStatement = `SELECT * FROM notifications 
+                                WHERE association_item = "${goldsteinData.associationType}" 
+                                AND association_id = ${goldsteinData.associationID}
+`;
+
+    const updateListeningData: UpdateListeningData = {
+      listening_association: `${goldsteinData.associationType}:${goldsteinData.associationID}`,
+      sql_statement: sqlStatement,
+    };
+
+    let pkg: WSPackage = {
+      package_type: ClientToServerMessage.UPDATE_LISENING_DATA,
+      payload: JSON.stringify(updateListeningData),
+    };
+    sendWsMessage(wsRef.current, pkg);
+
+    pkg = {
+      package_type: ClientToServerMessage.GET_DATA,
+      payload: "",
+    };
+    sendWsMessage(wsRef.current, pkg);
   }
 
   return (
