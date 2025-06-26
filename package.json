@@ -12,8 +12,8 @@
     "node": ">=10"
   },
   "scripts": {
-  "build": "microbundle-crl --no-compress --format modern,cjs --css-modules false",
-  "start": "microbundle-crl watch --no-compress --format modern,cjs --css-modules false"
+    "build": "cross-env microbundle-crl --no-compress --format modern,cjs --css-modules false",
+    "start": "cross-env microbundle-crl watch --no-compress --format modern,cjs --css-modules false"
   },
   "peerDependencies": {
     "react": "^18.0.0"
@@ -60,6 +60,7 @@
   "dependencies": {
     "@babel/plugin-proposal-unicode-property-regex": "^7.18.6",
     "@popperjs/core": "^2.11.8",
+    "@tanstack/react-query": "^5.81.2",
     "bootstrap": "5.3.6",
     "levenary": "^1.1.1"
   }

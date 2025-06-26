@@ -8,9 +8,9 @@ const App = () => {
   return (
     <GoldsteinDataProvider
       defaultData={{
-        goldsteinFQDN: 'go-server.lan:50433',
+        goldsteinFQDN: 'go-server.lan:50443',
         associationType: 'equipment',
-        associationID: 1,
+        associationID: 12,
       }}
     >
       <GoldsteinClientDashboard />
