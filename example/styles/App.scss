@@ -1,0 +1,42 @@
+@import "onelab/variables.scss";
+
+@import "bootstrap/scss/bootstrap";
+
+// Custom styles for dark mode
+[data-bs-theme="dark"] {
+  --bs-body-bg: #212529;
+  --bs-body-color: #f8f9fa;
+
+  .navbar {
+    background-color: #343a40;
+  }
+
+  .card {
+    background-color: #343a40;
+    border-color: #495057;
+  }
+
+  .list-group-item {
+    background-color: #343a40;
+    border-color: #495057;
+    color: #f8f9fa;
+  }
+
+  .form-control {
+    background-color: #495057;
+    border-color: #6c757d;
+    color: #f8f9fa;
+
+    &:focus {
+      background-color: #495057;
+      color: #f8f9fa;
+    }
+  }
+}
+
+// Light theme styles
+[data-bs-theme="light"] {
+  .navbar {
+    background-color: #f8f9fa;
+  }
+}
