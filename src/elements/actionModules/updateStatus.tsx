@@ -1,10 +1,25 @@
-import { useQueries, UseQueryResult } from "@tanstack/react-query";
+import { useQueries, UseQueryResult, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { listEquipmentModules, Module } from "../../core/listModules";
 import { listStatusOptions, StatusOption } from "../../core/listStatusOptions";
 import { useGoldsteinClientDataContext } from "../../context/DataContext";
 
-export default function UpdateStatus({
+// Create a client
+const queryClient = new QueryClient();
+
+// Wrapper component that provides QueryClientProvider
+export default function UpdateStatusWrapper(props: {
+  userID: number;
+  equipmentID: number;
+}) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <UpdateStatus {...props} />
+    </QueryClientProvider>
+  );
+}
+
+function UpdateStatus({
   userID,
   equipmentID,
 }: {
@@ -48,7 +63,7 @@ export default function UpdateStatus({
   useEffect(() => {
     if (dataAvailable && equipmentModulesQuery.data) {
       const modules = equipmentModulesQuery.data;
-      
+
       // Reset if no modules available
       if (modules.length === 0) {
         setSelectedModuleId(null);
@@ -139,7 +154,7 @@ export default function UpdateStatus({
               className="form-select"
               id="moduleSelect"
               value={selectedModuleId || ""}
-              onChange={(e) => setSelectedModuleId(Number(e.target.value))}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedModuleId(Number(e.target.value))}
               required
               disabled={submitting}
             >
@@ -164,11 +179,11 @@ export default function UpdateStatus({
               className="form-select"
               id="statusSelect"
               value={statusId ?? ""}
-              onChange={(e) => setStatusId(Number(e.target.value))}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setStatusId(Number(e.target.value))}
               required
               disabled={submitting || !selectedModuleId}
             >
-              {statusOptions.map((option) => (
+              {statusOptions.map((option: StatusOption) => (
                 <option
                   key={option.id}
                   value={option.id}
@@ -193,7 +208,7 @@ export default function UpdateStatus({
             id="description"
             className="form-control"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
             rows={3}
             placeholder="Add a description about the status update"
             disabled={submitting || !selectedModuleId}

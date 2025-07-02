@@ -53,6 +53,17 @@ PERFORMANCE OF THIS SOFTWARE.
 /* global Reflect, Promise, SuppressedError, Symbol, Iterator */
 
 
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
 function __awaiter(thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -499,6 +510,13 @@ function listStatusOptions(serverEndpoint) {
     });
 }
 
+// Create a client
+var queryClient = new reactQuery.QueryClient();
+// Wrapper component that provides QueryClientProvider
+function UpdateStatusWrapper(props) {
+    return (React.createElement(reactQuery.QueryClientProvider, { client: queryClient },
+        React.createElement(UpdateStatus, __assign({}, props))));
+}
 function UpdateStatus(_a) {
     var _this = this;
     var _b, _c;
@@ -657,7 +675,7 @@ function EquipmentUsable(_a) {
                 React.createElement("li", { className: "list-group-item d-flex justify-content-between align-items-center" },
                     React.createElement("span", null, "Client Association:"),
                     React.createElement("span", { className: "badge bg-info text-dark" }, clientAssociation)))),
-        React.createElement(UpdateStatus, { userID: userID, equipmentID: type === 'equipment' ? Number(id) : -1 })));
+        React.createElement(UpdateStatusWrapper, { userID: userID, equipmentID: type === 'equipment' ? Number(id) : -1 })));
 }
 
 var MOCK_API_TOKEN = "mock-token";

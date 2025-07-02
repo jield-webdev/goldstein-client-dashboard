@@ -1,4 +1,5 @@
-export default function UpdateStatus({ userID, equipmentID, }: {
+import React from "react";
+export default function UpdateStatusWrapper(props: {
     userID: number;
     equipmentID: number;
-}): any;
+}): React.JSX.Element;

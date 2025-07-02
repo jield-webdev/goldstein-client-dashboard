@@ -1,1 +1,2 @@
-export declare function GoldsteinClientDashboard(): any;
+import * as React from "react";
+export declare function GoldsteinClientDashboard(): React.JSX.Element;

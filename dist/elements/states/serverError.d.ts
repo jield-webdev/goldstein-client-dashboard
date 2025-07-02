@@ -1,1 +1,2 @@
-export default function ServerError(): any;
+import React from "react";
+export default function ServerError(): React.JSX.Element;
