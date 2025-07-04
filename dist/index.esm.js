@@ -796,6 +796,10 @@ function GoldsteinClientDashboard() {
     };
     // initialize de ws and manages its life clicle
     React.useEffect(function () {
+        if (goldsteinData.goldsteinFQDN == "") {
+            console.log("Goldstein fqdn is not set");
+            return;
+        }
         connectWs();
         return function () {
             if (wsRef.current) {
