@@ -176,7 +176,7 @@ export function GoldsteinClientDashboard() {
         console.log("Web socket disconnected");
       }
     };
-  }, []);
+  }, [goldsteinData]);
 
   const [renderingState, setRenderingState] = React.useState<RenderingStatus>({
     status: RenderingEnum.SERVER_ERROR,

@@ -571,10 +571,10 @@ function UpdateStatus(_a) {
     React.useEffect(function () {
         var _a, _b;
         if (selectedModuleId && equipmentModulesQuery.data) {
-            var module = equipmentModulesQuery.data.find(function (m) { return m.id === selectedModuleId; });
-            if (module) {
-                setStatusId(((_a = module.latest_module_status) === null || _a === void 0 ? void 0 : _a.status.id) || null);
-                setDescription(((_b = module.latest_module_status) === null || _b === void 0 ? void 0 : _b.description) || "");
+            var module_1 = equipmentModulesQuery.data.find(function (m) { return m.id === selectedModuleId; });
+            if (module_1) {
+                setStatusId(((_a = module_1.latest_module_status) === null || _a === void 0 ? void 0 : _a.status.id) || null);
+                setDescription(((_b = module_1.latest_module_status) === null || _b === void 0 ? void 0 : _b.description) || "");
             }
         }
     }, [selectedModuleId, equipmentModulesQuery.data]);
@@ -823,7 +823,7 @@ function GoldsteinClientDashboard() {
                 console.log("Web socket disconnected");
             }
         };
-    }, []);
+    }, [goldsteinData]);
     var _a = React__namespace.useState({
         status: RenderingEnum.SERVER_ERROR,
         association: "",
