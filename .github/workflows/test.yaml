@@ -1,17 +1,22 @@
+
 name: Test code
 
 on: [push]
 
 jobs:
-    run-test:
+  run-test:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./ 
+        working-directory: ./
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
+
       - run: npm ci
-      - run: npx jest --passWithNoTests --config jest.config.ts 
+
+      - run: npx jest --passWithNoTests --config jest.config.ts
