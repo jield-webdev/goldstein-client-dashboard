@@ -658,16 +658,26 @@ function EquipmentUsable(_a) {
         React__default.createElement(UpdateStatusWrapper, { userID: userID, equipmentID: type === 'equipment' ? Number(id) : -1 })));
 }
 
+function NullNotifications() {
+    return (React__default.createElement("div", { className: "text-center mt-5" },
+        React__default.createElement("div", { className: "alert alert-secondary border rounded-3 shadow-sm p-4 mx-auto", style: { maxWidth: "600px" }, role: "alert" },
+            React__default.createElement("h2", { className: "h5 text-muted mb-3" }, "No Notifications Found"),
+            React__default.createElement("p", { className: "text-secondary mb-0" }, "There are currently no Goldstein clients available for this association, or the service might be temporarily down.")),
+        React__default.createElement("div", { className: "d-grid gap-2 col-6 mx-auto mt-3" },
+            React__default.createElement("button", { className: "btn btn-outline-primary btn-sm", type: "button", onClick: function () { return window.location.reload(); } }, "Refresh Page"))));
+}
+
 var MOCK_API_TOKEN = "mock-token";
 var NOTIFICATION_TTL = 10;
 var LOGIN_TTL = 30;
 var RenderingEnum;
 (function (RenderingEnum) {
     RenderingEnum[RenderingEnum["SERVER_ERROR"] = 0] = "SERVER_ERROR";
-    RenderingEnum[RenderingEnum["WAITING_CARD_DETECTION"] = 1] = "WAITING_CARD_DETECTION";
-    RenderingEnum[RenderingEnum["CARD_READ"] = 2] = "CARD_READ";
-    RenderingEnum[RenderingEnum["USER_NOT_AUTHORIZED"] = 3] = "USER_NOT_AUTHORIZED";
-    RenderingEnum[RenderingEnum["EQUIPMENT_USABLE"] = 4] = "EQUIPMENT_USABLE";
+    RenderingEnum[RenderingEnum["NULL_NOTIFICATIONS"] = 1] = "NULL_NOTIFICATIONS";
+    RenderingEnum[RenderingEnum["WAITING_CARD_DETECTION"] = 2] = "WAITING_CARD_DETECTION";
+    RenderingEnum[RenderingEnum["CARD_READ"] = 3] = "CARD_READ";
+    RenderingEnum[RenderingEnum["USER_NOT_AUTHORIZED"] = 4] = "USER_NOT_AUTHORIZED";
+    RenderingEnum[RenderingEnum["EQUIPMENT_USABLE"] = 5] = "EQUIPMENT_USABLE";
 })(RenderingEnum || (RenderingEnum = {}));
 function getUsername(userID, serverEndpoint) {
     var _this = this;
@@ -711,9 +721,17 @@ function GoldsteinClientDashboard() {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log(readedData.notifications_list);
                         clientMap = getClientsStatus(readedData.notifications_list, new Date(), NOTIFICATION_TTL, LOGIN_TTL);
-                        console.log(clientMap);
+                        console.log(clientMap.size == 0);
+                        if (clientMap.size == 0) {
+                            return [2 /*return*/, setRenderingState({
+                                    status: RenderingEnum.NULL_NOTIFICATIONS,
+                                    association: "",
+                                    badgeUUID: "",
+                                    userName: "",
+                                    userID: 0,
+                                })];
+                        }
                         key = "".concat(goldsteinData.associationType, ":").concat(goldsteinData.associationID);
                         clientStatus = clientMap.get(key);
                         if (!clientStatus) {
@@ -878,6 +896,7 @@ function GoldsteinClientDashboard() {
                 React.createElement("div", { className: "card shadow" },
                     React.createElement("div", { className: "card-body" },
                         renderingState.status === RenderingEnum.SERVER_ERROR && (React.createElement(ServerError, null)),
+                        renderingState.status === RenderingEnum.NULL_NOTIFICATIONS && (React.createElement(NullNotifications, null)),
                         renderingState.status ===
                             RenderingEnum.WAITING_CARD_DETECTION && (React.createElement(WaitingCardDetection, null)),
                         renderingState.status === RenderingEnum.CARD_READ && (React.createElement(NoUserInCard, { badgeUID: renderingState.badgeUUID })),

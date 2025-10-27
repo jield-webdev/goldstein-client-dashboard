@@ -15,6 +15,7 @@ import WaitingCardDetection from "./states/waitingCardDetection";
 import NoUserInCard from "./states/noUserInCard";
 import UserNotAuthorized from "./states/userNotAuthorized";
 import EquipmentUsable from "./states/equipmentUsable";
+import NullNotifications from "./states/nullNotifications";
 
 const MOCK_API_TOKEN = "mock-token";
 
@@ -24,10 +25,11 @@ const LOGIN_TTL = 30;
 
 enum RenderingEnum {
   SERVER_ERROR = 0,
-  WAITING_CARD_DETECTION = 1,
-  CARD_READ = 2,
-  USER_NOT_AUTHORIZED = 3,
-  EQUIPMENT_USABLE = 4,
+  NULL_NOTIFICATIONS = 1, 
+  WAITING_CARD_DETECTION = 2,
+  CARD_READ = 3,
+  USER_NOT_AUTHORIZED = 4,
+  EQUIPMENT_USABLE = 5,
 }
 
 type RenderingStatus = {
@@ -66,14 +68,25 @@ export function GoldsteinClientDashboard() {
   const wsRef = React.useRef<WebSocket | null>(null);
 
   async function handleReadedData(readedData: ReadedData) {
-    console.log(readedData.notifications_list);
     const clientMap = getClientsStatus(
       readedData.notifications_list,
       new Date(),
       NOTIFICATION_TTL,
       LOGIN_TTL,
     );
-    console.log(clientMap);
+
+
+    console.log(clientMap.size == 0);
+
+    if (clientMap.size == 0) {
+        return setRenderingState({
+          status: RenderingEnum.NULL_NOTIFICATIONS,
+          association: "",
+          badgeUUID: "",
+          userName: "",
+          userID: 0,
+        });
+    }
 
     const key = `${goldsteinData.associationType}:${goldsteinData.associationID}`;
 
@@ -261,6 +274,9 @@ export function GoldsteinClientDashboard() {
             <div className="card-body">
               {renderingState.status === RenderingEnum.SERVER_ERROR && (
                 <ServerError />
+              )}
+              {renderingState.status === RenderingEnum.NULL_NOTIFICATIONS && (
+                <NullNotifications />
               )}
               {renderingState.status ===
                 RenderingEnum.WAITING_CARD_DETECTION && (

@@ -13,7 +13,7 @@ const App = () => {
         defaultData={{
           goldsteinFQDN: "go-server.lan:50443",
           associationType: "equipment",
-          associationID: 12,
+          associationID: 10,
         }}
       >
         <GoldsteinClientDashboard />
