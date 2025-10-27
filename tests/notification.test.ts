@@ -26,6 +26,13 @@ describe('getClientsStatus', () => {
         });
     });
 
+    it('empty list of notifications', () => {
+        const notifications: NotificationEntry[] = [];
+
+        const result = getClientsStatus(notifications, new Date("2025-05-22T13:05:35Z"), 1, 100);
+        expect(result.size).toBe(0);
+    });
+
     it('expired notification ttl but not login ttl', () => {
         const notifications: NotificationEntry[] = [
             {
