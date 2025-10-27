@@ -196,7 +196,7 @@ export function GoldsteinClientDashboard() {
   }, [goldsteinData]);
 
   const [renderingState, setRenderingState] = React.useState<RenderingStatus>({
-    status: RenderingEnum.SERVER_ERROR,
+    status: RenderingEnum.NULL_NOTIFICATIONS,
     association: "",
     badgeUUID: "",
     userName: "",

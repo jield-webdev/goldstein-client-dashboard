@@ -847,7 +847,7 @@ function GoldsteinClientDashboard() {
         };
     }, [goldsteinData]);
     var _a = React__namespace.useState({
-        status: RenderingEnum.SERVER_ERROR,
+        status: RenderingEnum.NULL_NOTIFICATIONS,
         association: "",
         badgeUUID: "",
         userName: "",
